@@ -51,7 +51,6 @@ export const createCompletion = async (
                     const lineEnd = buffer.indexOf('\n');
 
                     if (lineEnd === -1) {
-                        resolve()
                         break;
                     };
 
@@ -76,6 +75,7 @@ export const createCompletion = async (
                 }
             }
         } finally {
+            resolve()
             reader.cancel();
         }
     })

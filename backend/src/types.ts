@@ -1,4 +1,4 @@
-import { number, z } from "zod"
+import { email, number, z } from "zod"
 const MAX_INPUTS_TOKENS = 1000;
 const SUPPORTER_MODELS = ['openai/gpt-4o', 'openai/gpt-5']
 export type MODEL = typeof SUPPORTER_MODELS[number]
@@ -9,7 +9,16 @@ export const createChatSchema = z.object({
     model: z.enum(SUPPORTER_MODELS)
 })
 
-type Role = "assistent" | "user"
+export const CreateUser = z.object({
+    email: z.email()
+})
+
+export const SignIn = z.object({
+    email: z.email(),
+    otp:z.string()
+})
+
+export type Role = "assistent" | "user"
 export type Message = {
     role: Role;
     content: string
