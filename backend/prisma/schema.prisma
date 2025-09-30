@@ -9,11 +9,15 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(ulid())
-  email        String         @unique
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Conversations Conversation[]
+  id             String           @id @default(ulid())
+  email          String           @unique
+  credits        Int              @default(3)
+  isPremium      Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  conversations  Conversation[]
+  paymentHistory PaymentHistory[]
+  subscriptions  Subscription[]
 }
 
 model Conversation {
@@ -34,4 +38,33 @@ model Message {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   coversation    Conversation @relation(fields: [conversationId], references: [id])
+}
+
+model PaymentHistory {
+  paymentId     String   @id @default(ulid())
+  status        String
+  paymentMethod String
+  cfPaymentId   String?
+  bankReference String?
+  amount        Int
+  currency      String   @unique
+  userId        String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id             String   @id @default(ulid())
+  userId         String
+  currency       String
+  planId         String
+  subscriptionId String
+  startDate      DateTime
+  endDate        DateTime
+  isActive       Boolean  @default(true)
+  creditsGranted Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  User           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

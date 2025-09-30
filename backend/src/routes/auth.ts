@@ -29,22 +29,35 @@ authRouter.post('/initiate_signin', async (req, res) => {
             console.log('Log into your 1ai ' + otp)
         }
 
+
         try {
+            const user = await prismaClient.user.findUnique({
+                where: {
+                    email: data.email
+                }
+            })
+            if (user) {
+                res.status(200).json({
+                    message: "Check your email",
+                    success: true
+                })
+                return;
+            }
             await prismaClient.user.create({
                 data: {
                     email: data.email
                 }
             })
         } catch (e) {
-            console.log("user already exit ", e);
+            console.error("Internal server error", e);
         }
 
-        res.status(200).json({
+        res.status(201).json({
             message: "Check your email",
             success: true
         })
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).json({
             message: "Internal server error",
             success: false
@@ -87,8 +100,7 @@ authRouter.post('/signin', async (req, res) => {
         return
     }
 
-    const userId = "nick"
-    const token = jwt.sign({ userId }, process.env.JWT_SECRET as string)
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
 
     res.status(200).json({
         token,

@@ -54,6 +54,26 @@ router.post('/chat', authMiddleware, async (req, res) => {
         return
     }
 
+    const user = await prismaClient.user.findUnique({
+        where: { id: userId },
+    })
+
+    if (!user) {
+        res.status(404).json({
+            messsage: "user not found",
+            status: false
+        })
+        return;
+    }
+
+    if (user.credits <= 0) {
+        res.status(403).json({
+            messsage: "Insufficient credits. Please subscribe to continue.",
+            status: false
+        })
+        return;
+    }
+
     let existingMessages = InMemoryStore.getInstance().get(conversationId)
 
     if (!existingMessages.length) {
@@ -78,14 +98,21 @@ router.post('/chat', authMiddleware, async (req, res) => {
 
     let message = "";
 
-    await createCompletion([...existingMessages, {
-        role: "user",
-        content: data.message
-    }], data.model, (chunk: string) => {
-        message += chunk
-        res.write(chunk);
-    })
-    res.end();
+    try {
+        await createCompletion([...existingMessages, {
+            role: "user",
+            content: data.message
+        }], data.model, (chunk: string) => {
+            message += chunk
+            res.write(`data: ${JSON.stringify({ content: chunk })}\n\n`);
+        })
+        res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+    } catch (error) {
+        console.error("Error in completion:", error)
+        res.write(`data: ${JSON.stringify({ error: "Failed to generate response" })}\n\n`);
+    } finally {
+        res.end();
+    }
 
     InMemoryStore.getInstance().add(conversationId, {
         role: "user",
@@ -106,19 +133,59 @@ router.post('/chat', authMiddleware, async (req, res) => {
             }
         })
     }
-    await prismaClient.message.createMany({
-        data: [
-            {
-                conversationId,
-                role: "user",
-                content: data.message
-            },
-            {
-                conversationId,
-                role: "agent",
-                content: message
+
+    await prismaClient.$transaction([
+        prismaClient.message.createMany({
+            data: [
+                {
+                    conversationId,
+                    role: "user",
+                    content: data.message
+                },
+                {
+                    conversationId,
+                    role: "agent",
+                    content: message
+                }
+            ]
+        })
+    ])
+    prismaClient.user.update({
+        where: { id: userId },
+        data: {
+            credits: {
+                decrement: 1
             }
-        ]
+        }
     })
 })
+
+router.get('/credits', authMiddleware, async (req, res) => {
+    const userId = req.userId;
+    try {
+        const user = await prismaClient.user.findFirst({
+            where: {
+                id: userId
+            },
+        })
+        if (!user) {
+            return res.status(404).json({
+                message: "user not found",
+                status: false
+            })
+        }
+
+        res.json({
+            credits: user.credits,
+            isPremium: user.isPremium
+        });
+    } catch (error) {
+        console.error("Error fetching user credits:", error);
+        res.status(500).json({
+            message: "Internal server error",
+            status: false
+        })
+    }
+})
+
 export default router;

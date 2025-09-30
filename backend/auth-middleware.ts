@@ -3,9 +3,9 @@ import jwt, { type JwtPayload } from "jsonwebtoken";
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const authToken = req.headers.authorization?.split(" ")[1]
-    
+
     if (!authToken) {
-        res.json({
+        res.status(403).json({
             message: "Auth token required",
             success: false
         })
@@ -17,7 +17,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
         req.userId = data.userId;
         next();
     } catch (e) {
-        res.status(411).json({
+        res.status(403).json({
             message: "Auth token invalid!",
             success: false
         });
