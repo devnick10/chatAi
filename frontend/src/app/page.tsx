@@ -1,5 +1,10 @@
 "use client"
-import PaymentModel from "@/components/paymentModel";
+import FeaturesSection from "@/components/landing/features-section";
+import { Footer } from "@/components/landing/footer";
+import HeroSection from "@/components/landing/hero-section";
+import NavBar from "@/components/landing/NavBar";
+import PricingSection from "@/components/landing/pricing-section";
+import TestimonialSection from "@/components/landing/testimonials-section";
 import { useEffect } from "react";
 const BACKEND_URL = 'http://localhost:3000'
 export default function Home() {
@@ -50,8 +55,13 @@ export default function Home() {
 
 
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <PaymentModel />
+    <div className="font-sans bg-background min-h-screen">
+      <NavBar />
+      <HeroSection />
+      <FeaturesSection />
+      <PricingSection />
+      <TestimonialSection />
+      <Footer />
     </div>
   );
 }
