@@ -4,9 +4,8 @@ import { sendMail } from "../../postMark";
 import jwt from "jsonwebtoken";
 import { TOTP } from "totp-generator";
 import base32 from 'hi-base32';
-import { PrismaClient } from "../generated/prisma";
+import { prisma } from "..";
 const authRouter = Router();
-const prismaClient = new PrismaClient();
 
 
 authRouter.post('/initiate_signin', async (req, res) => {
@@ -20,7 +19,6 @@ authRouter.post('/initiate_signin', async (req, res) => {
             return;
         }
 
-
         const { otp } = await TOTP.generate(base32.encode(data.email + process.env.JWT_SECRET));
 
         if (process.env.NODE_ENV !== "development") {
@@ -29,9 +27,8 @@ authRouter.post('/initiate_signin', async (req, res) => {
             console.log('Log into your 1ai ' + otp)
         }
 
-
         try {
-            const user = await prismaClient.user.findUnique({
+            const user = await prisma.user.findUnique({
                 where: {
                     email: data.email
                 }
@@ -43,7 +40,7 @@ authRouter.post('/initiate_signin', async (req, res) => {
                 })
                 return;
             }
-            await prismaClient.user.create({
+            await prisma.user.create({
                 data: {
                     email: data.email
                 }
@@ -86,26 +83,64 @@ authRouter.post('/signin', async (req, res) => {
         return
     }
 
-    const user = await prismaClient.user.findFirst({
-        where: {
-            email: data.email
-        }
-    })
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                email: data.email
+            }
+        })
 
-    if (!user) {
-        res.status(401).json({
-            message: "User not found",
+        if (!user) {
+            res.status(401).json({
+                message: "User not found",
+                success: false
+            })
+            return
+        }
+
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
+
+        res.status(200).json({
+            token,
+            success: true
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: "Internal server error",
             success: false
         })
-        return
     }
-
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
-
-    res.status(200).json({
-        token,
-        success: true
-    })
 })
+
+authRouter.get('/me', async (req, res) => {
+    const userId = req.userId;
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                id: userId
+            }
+        })
+        if (!user) {
+            res.status(401).json({
+                message: "User not found",
+                success: false
+            })
+            return
+        }
+        res.status(200).json({
+            user,
+            success: true
+        })
+        return
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            message: "Internal server error",
+            success: false
+        })
+    }
+})
+
 
 export default authRouter;

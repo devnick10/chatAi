@@ -1,6 +1,8 @@
+'use client'
+
 import { plans } from '@/constant/data';
 import React from 'react'
-import PricingCard from './pricing-card';
+import { PricingCard } from './pricing-card';
 import SectionHeading from './SectionHeading';
 
 

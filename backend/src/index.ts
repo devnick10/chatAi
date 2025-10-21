@@ -6,7 +6,10 @@ import { PORT } from "./config";
 import aiRouter from './routes/ai';
 import authRouter from './routes/auth';
 import billingRouter from './routes/billing';
-
+import { PrismaClient } from './generated/prisma';
+export const prisma = new PrismaClient({
+    log: ['info','error'],
+});
 const app = express();
 
 app.use(express.json());
@@ -19,6 +22,7 @@ app.use('/api/v1/ai', aiRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/billing', billingRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    await prisma.$connect();
     console.log(`SERVER IS RUNNING AT PORT || ${PORT}`)
 })

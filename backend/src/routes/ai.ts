@@ -3,13 +3,12 @@ import { createChatSchema, type Message, type Role } from "../types";
 import { InMemoryStore } from "../inMemoryStore";
 import { createCompletion } from "../openRouter";
 import { authMiddleware } from "../../auth-middleware";
-import { PrismaClient } from "../generated/prisma";
+import { prisma } from "..";
 const router = Router();
-const prismaClient = new PrismaClient();
 
 router.get('/conversations', authMiddleware, async (req, res) => {
     const userId = req.userId;
-    const conversations = await prismaClient.conversation.findFirst({
+    const conversations = await prisma.conversation.findFirst({
         where: {
             userId
         },
@@ -22,7 +21,7 @@ router.get('/conversations', authMiddleware, async (req, res) => {
 router.get('/conversation/conversationId', authMiddleware, async (req, res) => {
     const userId = req.userId;
     const conversationId = req.params.conversationId;
-    const conversation = await prismaClient.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
         where: {
             id: conversationId,
             userId
@@ -54,7 +53,7 @@ router.post('/chat', authMiddleware, async (req, res) => {
         return
     }
 
-    const user = await prismaClient.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: { id: userId },
     })
 
@@ -77,7 +76,7 @@ router.post('/chat', authMiddleware, async (req, res) => {
     let existingMessages = InMemoryStore.getInstance().get(conversationId)
 
     if (!existingMessages.length) {
-        const messages = await prismaClient.message.findMany({
+        const messages = await prisma.message.findMany({
             where: {
                 conversationId
             }
@@ -125,7 +124,7 @@ router.post('/chat', authMiddleware, async (req, res) => {
     })
 
     if (!data.conversationId) {
-        await prismaClient.conversation.create({
+        await prisma.conversation.create({
             data: {
                 id: conversationId,
                 title: data.message.slice(0, 20) + '...',
@@ -134,8 +133,8 @@ router.post('/chat', authMiddleware, async (req, res) => {
         })
     }
 
-    await prismaClient.$transaction([
-        prismaClient.message.createMany({
+    await prisma.$transaction([
+        prisma.message.createMany({
             data: [
                 {
                     conversationId,
@@ -150,7 +149,7 @@ router.post('/chat', authMiddleware, async (req, res) => {
             ]
         })
     ])
-    prismaClient.user.update({
+    prisma.user.update({
         where: { id: userId },
         data: {
             credits: {
@@ -163,7 +162,7 @@ router.post('/chat', authMiddleware, async (req, res) => {
 router.get('/credits', authMiddleware, async (req, res) => {
     const userId = req.userId;
     try {
-        const user = await prismaClient.user.findFirst({
+        const user = await prisma.user.findFirst({
             where: {
                 id: userId
             },

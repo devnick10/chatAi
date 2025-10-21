@@ -1,4 +1,5 @@
 import { Testimonial } from "@/constant/data";
+import Image from "next/image";
 
 interface TestimonialCardProps {
     testimonial: Testimonial;
@@ -15,11 +16,11 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial })
                         zIndex: 0
                     }}
                 />
-                <div className="relative z-10 font-normal break-words text-primary-foreground text-2xl font-medium leading-8">
+                <div className="relative z-10  break-words text-primary-foreground text-2xl font-medium leading-8">
                     {testimonial.quote}
                 </div>
                 <div className="relative z-10 flex justify-start items-center gap-3">
-                    <img
+                    <Image
                         alt={`${testimonial.name} avatar`}
                         loading="lazy"
                         width="48"
@@ -41,12 +42,12 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial })
     }
 
     return (
-        <div className="flex flex-col justify-between items-start overflow-hidden rounded-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.08)] relative p-[30px] bg-card outline outline-1 outline-border outline-offset-[-1px] w-full md:w-[384px] h-[244px]">
-            <div className="relative z-10 font-normal break-words text-foreground/80 text-[17px] font-normal leading-6">
+        <div className="flex flex-col justify-between items-start overflow-hidden rounded-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.08)] relative p-[30px] bg-card  outline-1 outline-border outline-offset-[-1px] w-full md:w-[384px] h-[244px]">
+            <div className="relative z-10 break-words text-foreground/80 text-[17px] font-normal leading-6">
                 {testimonial.quote}
             </div>
             <div className="relative z-10 flex justify-start items-center gap-3">
-                <img
+                <Image
                     alt={`${testimonial.name} avatar`}
                     loading="lazy"
                     width="36"

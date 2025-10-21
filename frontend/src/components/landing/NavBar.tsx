@@ -1,6 +1,7 @@
 import React from 'react'
 import ModeToggle from '../mode-toggle'
 import Link from 'next/link'
+import { Button } from '../ui/button'
 
 export default function NavBar() {
     return (
@@ -15,9 +16,11 @@ export default function NavBar() {
             </div>
             <div className='flex items-center'>
                 <div>
-                    <button className=' bg-white text-black rounded-2xl px-2 py-1 text-shadow-blue-300 shadow-sm text-md mr-10'>Try For Free</button>
+                    <Button variants={'simple'} className='text-neutral-700'>
+                        <Link href={'/signin'}>Try For Free</Link>
+                    </Button>
                 </div>
-                    <ModeToggle />
+                <ModeToggle />
             </div>
         </nav>
     )

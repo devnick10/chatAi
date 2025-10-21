@@ -1,13 +1,9 @@
-import { Router, type Request, type Response } from "express";
-import { razorpay } from "../razorpay";
-import { checkout, paymentVerify } from "../types";
-import crypto from "crypto"
-import { runInNewContext } from "vm";
-import { authMiddleware } from "../../auth-middleware";
 import axios from "axios";
-import { PrismaClient } from "../generated/prisma";
+import crypto from "crypto";
+import { Router } from "express";
+import { authMiddleware } from "../../auth-middleware";
+import { prisma } from "..";
 const router = Router();
-const prisma = new PrismaClient();
 
 const razorpayCredentials = {
     key: process.env.RAZORPAY_KEY_ID,

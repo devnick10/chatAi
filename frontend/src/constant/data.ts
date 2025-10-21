@@ -37,7 +37,7 @@ export const plans: Plan[] = [
     ],
     cta: {
       text: "Start for free",
-      href: "/signup",
+      href: "/signin",
     },
   },
   {
@@ -57,7 +57,7 @@ export const plans: Plan[] = [
     ],
     cta: {
       text: "Upgrade to Pro",
-      href: "/upgrade",
+      href: "/signin",
     },
   },
   {

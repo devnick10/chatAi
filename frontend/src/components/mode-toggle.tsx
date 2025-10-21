@@ -1,3 +1,4 @@
+'use client'
 import { cn } from '@sglara/cn'
 import { useTheme } from 'next-themes'
 import React, { useEffect, useState } from 'react'

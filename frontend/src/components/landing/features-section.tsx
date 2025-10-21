@@ -1,4 +1,4 @@
-import { ContextMemoryIcon, ConversationIcon, LightningIcon, MultpleChatsIcon, PrivacyIcon, RealtimeSyncIcon } from "../icons"
+import { ContextMemoryIcon, ConversationIcon, LightningIcon, MultpleChatsIcon, PrivacyIcon, RealtimeSyncIcon } from "../ui/icons"
 import SectionHeading from "./SectionHeading"
 
 const features = [

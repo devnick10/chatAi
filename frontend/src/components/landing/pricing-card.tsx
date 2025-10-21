@@ -1,4 +1,5 @@
 import { CTA, Feature } from "@/constant/data";
+import { Button } from "../ui/button";
 
 interface PricingCardProps {
     planType: string;
@@ -10,7 +11,7 @@ interface PricingCardProps {
     cta: CTA;
 }
 
-export default function PricingCard({
+export const PricingCard: React.FC<PricingCardProps> = ({
     planType,
     price,
     interval,
@@ -18,7 +19,7 @@ export default function PricingCard({
     features,
     highlight,
     cta
-}: PricingCardProps) {
+}: PricingCardProps) => {
     const handleClick = () => {
         if (cta.onClick) {
             cta.onClick();
@@ -44,14 +45,11 @@ export default function PricingCard({
                         <div className="self-stretch text-sm font-medium leading-tight text-zinc-400">{description}</div>
                     </div>
                 </div>
-                <button
-                    onClick={handleClick}
-                    className="ring-offset-background focus-visible:outline-hidden focus-visible:ring-ring gap-2 whitespace-nowrap text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-10 self-stretch px-5 py-2 rounded-[40px] flex justify-center items-center bg-zinc-300 shadow-[0px_1px_1px_-0.5px_rgba(16,24,40,0.20)] outline-0.5 outline-[#1e29391f] outline-offset-[-0.5px] text-gray-800 text-shadow-[0px_1px_1px_rgba(16,24,40,0.08)] hover:bg-zinc-400"
-                >
+                <Button variants="large" onClick={handleClick}>
                     <div className="px-1.5 flex justify-center items-center gap-2">
                         <span className="text-center text-sm font-medium leading-tight text-gray-800">{cta.text}</span>
                     </div>
-                </button>
+                </Button>
             </div>
             <div className="self-stretch flex flex-col justify-start items-start gap-4">
                 <div className="self-stretch text-sm font-medium leading-tight text-muted-foreground">What&apos;s included:</div>
