@@ -1,4 +1,5 @@
 import { cn } from "@sglara/cn"
+import { IconMessageQuestion } from "@tabler/icons-react"
 
 export function ConversationIcon({ className }: { className?: string }) {
     return <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn('icon icon-tabler icons-tabler-outline icon-tabler-message-plus', className)}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 9h8" /><path d="M8 13h6" /><path d="M12.01 18.594l-4.01 2.406v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v5.5" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
@@ -34,6 +35,15 @@ export function LoaderIcon({ size, classNames }: { size: string, classNames: str
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={cn("icon icon-tabler icons-tabler-outline icon-tabler-loader", `size-${size}`, classNames)}><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 6l0 -3" /><path d="M16.25 7.75l2.15 -2.15" /><path d="M18 12l3 0" /><path d="M16.25 16.25l2.15 2.15" /><path d="M12 18l0 3" /><path d="M7.75 16.25l-2.15 2.15" /><path d="M6 12l-3 0" /><path d="M7.75 7.75l-2.15 -2.15" /></svg>
     )
+}
+
+export function ChatAiIcon({ classNames }: { classNames?: string }) {
+    return <IconMessageQuestion className={cn("text-blue-500/80", classNames)} />
+
+}
+
+export function IconSoundWave({ classNames, size }: { size: string, classNames: string }) {
+    return <svg xmlns="http://www.w3.org/2000/svg" className={cn(classNames, `size-${size}`)} viewBox="0 0 24 24" fill="white"><path d="M1 10v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-2 0zM6 6v12a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0zM21 10v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-2 0zM16 6v12a1 1 0 0 0 2 0V6a1 1 0 0 0-2 0zM11 2v20a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0z" /></svg>
 }
 
 

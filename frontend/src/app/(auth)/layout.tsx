@@ -1,12 +1,13 @@
 'use client';
 
-import { SpinnerCustom } from '@/components/ui/spinner';
+import NavBar from '@/components/landing/NavBar';
 import useToken from '@/hooks/useToken';
 import { useMyInfoQuery } from '@/redux/service/service';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Loader from '../_components/loader';
 
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const { getToken } = useToken()
     const token = getToken();
@@ -21,6 +22,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         }
     }, [data, isSuccess, router]);
 
-    if (isLoading) return <p><SpinnerCustom />Checking authentication...</p>;
-    return <>{children}</>;
+    if (isLoading) return <Loader />;
+    if (!token && !isLoading) return null;
+    return <>
+        <NavBar />
+        {children}
+    </>;
 }

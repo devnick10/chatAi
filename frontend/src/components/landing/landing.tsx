@@ -8,6 +8,7 @@ import useToken from '@/hooks/useToken';
 import { useMyInfoQuery } from '@/redux/service/service';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import NavBar from "./NavBar";
 
 export default function LandingPage() {
     const router = useRouter();
@@ -27,6 +28,7 @@ export default function LandingPage() {
 
     return (
         <div className="font-sans bg-background min-h-screen">
+            <NavBar />
             <HeroSection />
             <FeaturesSection />
             <PricingSection />

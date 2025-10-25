@@ -1,4 +1,4 @@
-import { IconMessageQuestion } from "@tabler/icons-react";
+import { ChatAiIcon } from "@/components/ui/icons";
 import { SignInCard } from "./signin-card";
 
 export default function SignIn() {
@@ -6,7 +6,7 @@ export default function SignIn() {
         <section id='signin' className='w-screen h-screen flex flex-col justify-center items-center -mt-12 '>
             {/* Logo */}
             <div className="mx-auto flex gap-1 ">
-                <IconMessageQuestion className="text-blue-500/80" />
+                <ChatAiIcon />
                 <h1 className="text-2xl font-bold text-foreground">Chat AI</h1>
             </div>
             <SignInCard />
