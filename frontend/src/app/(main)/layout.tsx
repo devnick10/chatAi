@@ -4,9 +4,8 @@ import useSidebar from '@/hooks/useSidebar';
 import { cn } from '@sglara/cn';
 import { IconDots, IconShare2 } from '@tabler/icons-react';
 
-import { SpinnerCustom } from '@/components/ui/spinner';
 import useToken from '@/hooks/useToken';
-import useAuth from '@/hooks/useUser';
+import useAuth from '@/hooks/useAuth';
 import { logout } from '@/redux/features/auth/authSlice';
 import { useAppDispatch } from '@/redux/hooks';
 import { useMyInfoQuery } from '@/redux/service/service';
@@ -16,7 +15,6 @@ import Loader from '../_components/loader';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const isSidebarOpen = useSidebar();
-
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useAuth();
@@ -58,12 +56,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Nav */}
         <div className='p-4 flex justify-between'>
           <div>
-            <h2 className='text-xl font-medium '>ChatAi</h2>
+            <h2 className='text-xl font-medium '>ChatAI</h2>
           </div>
-          <div className='flex gap-4 items-center'>
+          {/* <div className='flex gap-4 items-center'>
             <button className='flex gap-1 items-center justify-center'><IconShare2 />Share</button>
             <button><IconDots /></button>
-          </div>
+          </div> */}
         </div>
         {/* Main content */}
         <div className=''>

@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { SpinnerCustom } from "@/components/ui/spinner"
 import useToken from "@/hooks/useToken"
-import useAuth from "@/hooks/useUser"
+import useAuth from "@/hooks/useAuth"
 import { VerifyEmailFormSchema, VerifyEmailFormType } from "@/lib/schema"
 import { resendOtpState } from "@/redux/features/auth/authSlice"
 import { useAppDispatch } from "@/redux/hooks"

@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 export default function Searchbar() {
   return (
     <div className='w-full bg-neutral-700 shadow-sm shadow-neutral-900 rounded-3xl flex items-center justify-between py-2 px-3'>
-      <button className='p-2 hover:bg-neutral-600 rounded-full'><IconPlus /></button>
+      <button className='p-2 hover:bg-neutral-600 mr-2 rounded-full'><IconPlus /></button>
       <input className={cn(
         'w-full  outline-none'
       )}

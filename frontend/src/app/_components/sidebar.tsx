@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { ChatAiIcon } from '@/components/ui/icons'
 import { IconLayoutSidebarRight, IconMessage2, IconSearch, IconUser } from '@tabler/icons-react'
@@ -5,9 +6,11 @@ import { useAppDispatch } from '@/redux/hooks'
 import { toggleSidebar } from '@/redux/features/sidebar/sidebarSlice'
 import { cn } from '@sglara/cn'
 import useSidebar from '@/hooks/useSidebar'
+import useAuth from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 
 const sidebarFeatures = [
-    { title: "New chat", icon: IconMessage2 },
+    { title: "New chat", icon: IconMessage2, hrf: "/dashboard" },
     { title: "Search chats", icon: IconSearch },
 ]
 
@@ -15,6 +18,9 @@ export default function Sidebar() {
     const isOpen = useSidebar();
     const dispatch = useAppDispatch();
     const toggle = () => dispatch(toggleSidebar());
+    const { user } = useAuth();
+    const userName = user?.email.split("@")[0] || "Guest";
+    const router = useRouter();
 
     return (
         <div className="flex flex-col h-full">
@@ -32,7 +38,7 @@ export default function Sidebar() {
                 )}
                 {!isOpen && (
                     <button onClick={toggle}>
-                        <ChatAiIcon classNames='shrink-0 text-neutral-400 group-hover:hidden transition-all text-blue-500 ' />
+                        <ChatAiIcon className='shrink-0 group-hover:hidden transition-all text-blue-500 ' />
                         <IconLayoutSidebarRight className='hidden group-hover:inline  transition-all' />
                     </button>
                 )}
@@ -49,8 +55,11 @@ export default function Sidebar() {
                                 "flex items-center gap-3 px-4 py-2 hover:bg-neutral-800 cursor-pointer transition-colors",
                                 !isOpen && "justify-center"
                             )}
+                            onClick={() => feat.hrf ? router.push(feat.hrf) : null}
                         >
-                            <Icon className="shrink-0" />
+                            <Icon
+                                className="shrink-0"
+                            />
                             {isOpen && <span className="text-sm font-medium">{feat.title}</span>}
                         </div>
                     );
@@ -63,12 +72,11 @@ export default function Sidebar() {
                 <div className='relative flex justify-between px-4 items-center '>
                     <div className='flex gap-2 items-center'>
                         <div className='rounded-full bg-gray-600 w-8 h-8 flex justify-center items-center '>
-                            <IconUser className='size-4' />
+                            {userName.at(0) || <IconUser className='size-4' />}
                         </div>
                         {isOpen &&
                             <div >
-                                <h4 className='font-medium'>User name</h4>
-                                <p className='text-foreground/50 text-sm'>plan-free</p>
+                                <h4 className='font-medium'>{userName}</h4>                                <p className='text-foreground/50 text-sm'>plan-free</p>
                             </div>
                         }
                     </div>
