@@ -150,15 +150,3 @@ export const testimonials: Testimonial[] = [
 ];
 
 
-export const chatGreetings = [
-  { title: "What would you like to talk about today?" },
-  { title: "Need help with something specific right now?" },
-  { title: "What are you working on today?" },
-  { title: "Got any questions on your mind?" },
-  { title: "How can I make your day easier?" },
-  { title: "Looking to learn something new today?" },
-  { title: "What’s your goal for today?" },
-  { title: "Want to brainstorm an idea together?" },
-  { title: "Is there something you’d like to explore or create?" },
-  { title: "Tell me what you’re curious about right now." },
-];

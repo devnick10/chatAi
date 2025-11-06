@@ -67,7 +67,7 @@ export default function Sidebar() {
             </div>
 
             {/* Chats */}
-            {isOpen && <ChatsContainer />}
+            {isOpen && <ChatTitleContainer />}
             <div className='h-full flex flex-col justify-end py-4'>
                 <div className='relative flex justify-between px-4 items-center '>
                     <div className='flex gap-2 items-center'>
@@ -87,7 +87,7 @@ export default function Sidebar() {
     )
 }
 
-function ChatsContainer() {
+function ChatTitleContainer() {
     return (
         <div className="p-4">
             <h1 className="border-b border-neutral-700 mb-2 font-semibold">Chats</h1>

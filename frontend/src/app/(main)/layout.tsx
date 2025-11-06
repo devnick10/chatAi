@@ -15,33 +15,33 @@ import Loader from '../_components/loader';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const isSidebarOpen = useSidebar();
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const { user } = useAuth();
+  // const router = useRouter();
+  // const dispatch = useAppDispatch();
+  // const { user } = useAuth();
 
-  const { getToken } = useToken()
-  const token = getToken();
-  const { data, isLoading, isError } = useMyInfoQuery(token!, {
-    skip: !token,
-  });
+  // const { getToken } = useToken()
+  // const token = getToken();
+  // const { data, isLoading, isError } = useMyInfoQuery(token!, {
+  //   skip: !token,
+  // });
 
-  useEffect(() => {
-    if (!token) {
-      dispatch(logout());
-      router.replace('/signin');
-      return;
-    }
+  // useEffect(() => {
+  //   if (!token) {
+  //     dispatch(logout());
+  //     router.replace('/signin');
+  //     return;
+  //   }
 
-    if (isError) {
-      router.replace('/signin');
-      return;
-    }
-  }, [token, isError, data, dispatch, router]);
+  //   if (isError) {
+  //     router.replace('/signin');
+  //     return;
+  //   }
+  // }, [token, isError, data, dispatch, router]);
 
-  if (isLoading) return <Loader />;
-  if (!user && !isLoading) return null; // avoid flicker before redirect
+  // if (isLoading) return <Loader />;
+  // if (!user && !isLoading) return null; // avoid flicker before redirect
   return <>
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen">
       {/* Sidebar */}
       <div
         className={cn(
@@ -51,22 +51,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <Sidebar />
       </div>
-
-      <div className="flex-1 bg-neutral-800">
-        {/* Nav */}
-        <div className='p-4 flex justify-between'>
-          <div>
-            <h2 className='text-xl font-medium '>ChatAI</h2>
-          </div>
-          {/* <div className='flex gap-4 items-center'>
-            <button className='flex gap-1 items-center justify-center'><IconShare2 />Share</button>
-            <button><IconDots /></button>
-          </div> */}
-        </div>
-        {/* Main content */}
-        <div className=''>
-          {children}
-        </div>
+      <div className="flex-1 bg-neutral-800 overflow-y-auto">
+        {children}
       </div>
     </div>
   </>
