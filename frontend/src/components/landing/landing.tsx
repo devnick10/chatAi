@@ -27,7 +27,7 @@ export default function LandingPage() {
     }, [data, isSuccess, router]);
 
     return (
-        <div className="font-sans bg-background min-h-screen">
+        <div className="font-sans bg-background">
             <NavBar />
             <HeroSection />
             <FeaturesSection />

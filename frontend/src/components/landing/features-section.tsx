@@ -37,13 +37,13 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section id={"features"} className='w-screen h-screen grid grid-cols-1   divide-y divide-neutral-600 '>
+    <section id={"features"} className='w-full grid grid-cols-1 divide-y sm:gap-6 -mt-6 divide-neutral-600 overflow-hidden '>
       <SectionHeading
         heading={"Impower your workflow with AI"}
         description={"Ask your AI Agent for real-time collaboration, seamless integrations, and actionable insights to streamline your operations."}
       />
-      <div className='w-7xl mx-auto flex justify-center items-center'>
-        <div className='grid grid-cols-3 gap-2 '>
+      <div className='w-full max-w-7xl mx-auto flex justify-center items-center'>
+        <div className='grid grid-cols-1 sm:grid-cols-3 gap-2 px-1.5 '>
           {
             features.map((item, index) => (
               <div key={index} className='relative bg-neutral-800/50 rounded-md px-4 py-2 '>
