@@ -1,8 +1,9 @@
 'use client'
+import Loader from '@/app/_components/loader'
 import { useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 
-export default function Success() {
+function DisplayPaymentRef() {
     const searchParams = useSearchParams()
     const referance = searchParams.get('referance')
     return (
@@ -11,4 +12,12 @@ export default function Success() {
             <p>Referance No.{referance}</p>
         </div>
     )
+}
+
+export default function Success() {
+    return (<>
+        <Suspense fallback={<Loader />}>
+            <DisplayPaymentRef />
+        </Suspense>
+    </>)
 }

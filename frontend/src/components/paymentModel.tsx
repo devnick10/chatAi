@@ -16,10 +16,11 @@ const PaymentModel = () => {
         const options = {
             key: order.rzpKey,
             amount: 499,
-            currency: 'INR',
+            currency: "INR",
             name: 'Chat AI',
             description: 'Your AI Assistant for Everything',
-            subscription_Id: order.subscriptionId,
+            order_id: order.subscriptionId || '',
+            subscription_id: order.subscriptionId,
             "handler": function (response: rzpResonponse) {
                 if (response) {
                     api.post('/subscribe', {
@@ -42,7 +43,7 @@ const PaymentModel = () => {
                 color: '#F37254'
             },
         };
-
+        // @ts-expect-error Currency code ; 
         const rzp = new Razorpay(options);
         rzp.open();
     }

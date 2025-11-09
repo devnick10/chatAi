@@ -74,6 +74,7 @@ export const serviceApi = createApi({
                     const { data } = await queryFulfilled;
                     dispatch(setUser(data))
                 } catch (error) {
+                    console.error(error);
                     dispatch(logout());
                 }
             }
