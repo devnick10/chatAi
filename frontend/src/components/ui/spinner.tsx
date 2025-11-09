@@ -1,6 +1,5 @@
-
-import { cn } from "@sglara/cn"
-import { LoaderIcon } from "./icons"
+import { cn } from "@sglara/cn";
+import { LoaderIcon } from "./icons";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (
@@ -11,7 +10,7 @@ function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
       {...props}
       size={"6"}
     />
-  )
+  );
 }
 
 export function SpinnerCustom() {
@@ -19,5 +18,5 @@ export function SpinnerCustom() {
     <div className="flex items-center gap-4">
       <Spinner />
     </div>
-  )
+  );
 }

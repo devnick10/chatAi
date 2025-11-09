@@ -1,20 +1,20 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-export type AuthStepType = "step1" | "step2"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+export type AuthStepType = "step1" | "step2";
 
 export interface AuthState {
   user: { email: string } | null;
-  step: AuthStepType
-  isAuthenticated: boolean
+  step: AuthStepType;
+  isAuthenticated: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
   step: "step1",
-  isAuthenticated: false
+  isAuthenticated: false,
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     initiate_signin: (state, action: PayloadAction<{ step: AuthStepType }>) => {
@@ -39,5 +39,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { signin, logout, initiate_signin, setUser,resendOtpState } = authSlice.actions;
+export const { signin, logout, initiate_signin, setUser, resendOtpState } =
+  authSlice.actions;
 export default authSlice.reducer;

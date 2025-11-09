@@ -1,4 +1,3 @@
-
 export const Footer = () => {
   return (
     <>
@@ -9,41 +8,43 @@ export const Footer = () => {
               {/* <ChatCircleIcon weight="bold" className="size-5" /> */}
             </div>
             <h1 className="mt-4 font-semibold">ChatAI</h1>
-            <div className="text-sm text-muted-foreground">Copyright &copy; {new Date().getFullYear()}</div>
+            <div className="text-sm text-muted-foreground">
+              Copyright &copy; {new Date().getFullYear()}
+            </div>
           </div>
         </div>
-        
+
         <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm">
-          <a 
-            href="/about" 
+          <a
+            href="/about"
             className="text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             About Us
           </a>
           <span className="text-muted-foreground/50">•</span>
-          <a 
-            href="/contact" 
+          <a
+            href="/contact"
             className="text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             Contact
           </a>
           <span className="text-muted-foreground/50">•</span>
-          <a 
-            href="/pricing" 
+          <a
+            href="/pricing"
             className="text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             Pricing
           </a>
           <span className="text-muted-foreground/50">•</span>
-          <a 
-            href="/terms" 
+          <a
+            href="/terms"
             className="text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             Terms
           </a>
           <span className="text-muted-foreground/50">•</span>
-          <a 
-            href="/refund" 
+          <a
+            href="/refund"
             className="text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             Refund Policy

@@ -1,22 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-export type AuthStepType = "step1" | "step2"
+import { createSlice } from "@reduxjs/toolkit";
+export type AuthStepType = "step1" | "step2";
 
 export interface AuthState {
-    sidbar: boolean
+  sidbar: boolean;
 }
 
 const initialState: AuthState = {
-    sidbar: false,
+  sidbar: false,
 };
 
 const modelsSlice = createSlice({
-    name: 'models',
-    initialState,
-    reducers: {
-        toggleSidebar: (state) => {
-            state.sidbar = !state.sidbar;
-        },
+  name: "models",
+  initialState,
+  reducers: {
+    toggleSidebar: (state) => {
+      state.sidbar = !state.sidbar;
     },
+  },
 });
 
 export const { toggleSidebar } = modelsSlice.actions;

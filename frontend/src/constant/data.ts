@@ -79,7 +79,7 @@ export const plans: Plan[] = [
       onClick: () => console.log("Contact sales clicked"),
     },
   },
-]
+];
 
 export interface Testimonial {
   id: number;
@@ -93,60 +93,72 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     id: 1,
-    quote: "This AI assistant has completely transformed how I work. From writing emails to planning complex projects, it handles everything with remarkable intelligence and understanding.",
+    quote:
+      "This AI assistant has completely transformed how I work. From writing emails to planning complex projects, it handles everything with remarkable intelligence and understanding.",
     name: "Annette Black",
     company: "Sony",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-4-qMafHzyfZxs0dpGYhdbWbRHswRjWl7.png",
-    featured: true
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-4-qMafHzyfZxs0dpGYhdbWbRHswRjWl7.png",
+    featured: true,
   },
   {
     id: 2,
-    quote: "Integrating this AI into my daily workflow was seamless. It saved me hours of work each week by handling routine tasks and complex research alike.",
+    quote:
+      "Integrating this AI into my daily workflow was seamless. It saved me hours of work each week by handling routine tasks and complex research alike.",
     name: "Dianne Russell",
     company: "McDonald's",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-3-FAI1sjNYP2Y0bSsXrq4xDeJeR0Qimy.png",
-    featured: false
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-3-FAI1sjNYP2Y0bSsXrq4xDeJeR0Qimy.png",
+    featured: false,
   },
   {
     id: 3,
-    quote: "The multi-tasking capability is incredible. I can switch from data analysis to creative writing to planning without losing context or quality.",
+    quote:
+      "The multi-tasking capability is incredible. I can switch from data analysis to creative writing to planning without losing context or quality.",
     name: "Cameron Williamson",
     company: "IBM",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-2-8CtKRDNCORx2jc8RSQwxo59erTxZTJ.png",
-    featured: false
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-2-8CtKRDNCORx2jc8RSQwxo59erTxZTJ.png",
+    featured: false,
   },
   {
     id: 4,
-    quote: "We no longer juggle multiple specialized tools. This one AI handles all our needs across different departments and use cases.",
+    quote:
+      "We no longer juggle multiple specialized tools. This one AI handles all our needs across different departments and use cases.",
     name: "Robert Fox",
     company: "MasterCard",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-5-mhWfY5xW4fWennYjznJ4Lot5eXYGdt.png",
-    featured: false
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-5-mhWfY5xW4fWennYjznJ4Lot5eXYGdt.png",
+    featured: false,
   },
   {
     id: 5,
-    quote: "Started with the free plan to test it out, but upgraded within days. Now I can't imagine my workday without this AI assistant.",
+    quote:
+      "Started with the free plan to test it out, but upgraded within days. Now I can't imagine my workday without this AI assistant.",
     name: "Darlene Robertson",
     company: "Ferrari",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-1-w4FBr5TSqiRuL4Ejkk6Hl6qZHobFaK.png",
-    featured: false
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-1-w4FBr5TSqiRuL4Ejkk6Hl6qZHobFaK.png",
+    featured: false,
   },
   {
     id: 6,
-    quote: "Collaboration feels effortless now. The AI maintains context across different conversations and team members, making group projects incredibly smooth.",
+    quote:
+      "Collaboration feels effortless now. The AI maintains context across different conversations and team members, making group projects incredibly smooth.",
     name: "Cody Fisher",
     company: "Apple",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-O0uFsty8qjC3hOSRgQSfOVRxuzh4rK.png",
-    featured: false
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%201171275494-O0uFsty8qjC3hOSRgQSfOVRxuzh4rK.png",
+    featured: false,
   },
   {
     id: 7,
-    quote: "From complex research to simple daily tasks, this AI delivers consistent quality. It's like having a brilliant assistant who never sleeps and always understands exactly what I need.",
+    quote:
+      "From complex research to simple daily tasks, this AI delivers consistent quality. It's like having a brilliant assistant who never sleeps and always understands exactly what I need.",
     name: "Albert Flores",
     company: "Louis Vuitton",
-    avatar: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sss-OievisDuoAbHqA7oOHwTfWfuRpf7YN.png",
-    featured: true
-  }
+    avatar:
+      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sss-OievisDuoAbHqA7oOHwTfWfuRpf7YN.png",
+    featured: true,
+  },
 ];
-
-

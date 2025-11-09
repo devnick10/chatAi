@@ -1,31 +1,38 @@
-'use client'
-import { IconDots, IconShare2 } from '@tabler/icons-react'
-import { useParams } from 'next/navigation';
-import React from 'react'
+"use client";
+import { IconDots, IconShare2 } from "@tabler/icons-react";
+import { useParams } from "next/navigation";
+import React from "react";
 
 export default function Page() {
   const params = useParams();
   const chatId = params.chatId as string;
   return (
-    <div className='w-full min-h-screen bg-neutral-800'>
+    <div className="w-full min-h-screen bg-neutral-800">
       <ChatTopBar />
       <ChatContainer id={chatId} />
     </div>
-  )
+  );
 }
 
 function ChatTopBar() {
-  return (<>
-    <div className='p-4 flex justify-between min-w-full'>
-      <div>
-        <h2 className='text-xl font-medium '>ChatAI</h2>
+  return (
+    <>
+      <div className="p-4 flex justify-between min-w-full">
+        <div>
+          <h2 className="text-xl font-medium ">ChatAI</h2>
+        </div>
+        <div className="flex gap-4 items-center">
+          <button className="flex gap-1 items-center justify-center">
+            <IconShare2 />
+            Share
+          </button>
+          <button>
+            <IconDots />
+          </button>
+        </div>
       </div>
-      <div className='flex gap-4 items-center'>
-        <button className='flex gap-1 items-center justify-center'><IconShare2 />Share</button>
-        <button><IconDots /></button>
-      </div>
-    </div>
-  </>)
+    </>
+  );
 }
 
 function ChatContainer({ id }: { id: string }) {
@@ -38,5 +45,5 @@ function ChatContainer({ id }: { id: string }) {
         </p>
       ))}
     </div>
-  )
+  );
 }

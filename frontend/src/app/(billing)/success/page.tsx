@@ -1,8 +1,6 @@
-import Success from '@/components/success'
-import React from 'react'
+import Success from "@/components/success";
+import React from "react";
 
 export default function Page() {
-    return (
-        <Success />
-    )
+  return <Success />;
 }

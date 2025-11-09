@@ -1,6 +1,6 @@
 import LandingPage from "@/components/landing/landing";
 import { data } from "@/lib/metadata";
-const BACKEND_URL = 'http://localhost:3000'
+const BACKEND_URL = "http://localhost:3000";
 export const metadata = data;
 
 export default function Home() {
@@ -47,7 +47,5 @@ export default function Home() {
   //   makeRequest();
   // }, [])
 
-  return (
-    <LandingPage />
-  );
+  return <LandingPage />;
 }
