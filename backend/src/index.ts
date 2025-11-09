@@ -14,13 +14,18 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3001",
+    origin: [
+        process.env.FRONTEND_URL || "http://localhost:3001",
+    ],
     credentials: true
 }))
 
 app.use('/api/v1/ai', aiRouter);
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/billing', billingRouter);
+app.use('/api/health-check', (req,res)=>{
+res.status(200).json({message:"server is healthy"})
+});
 
 app.listen(PORT, async () => {
     await prisma.$connect();

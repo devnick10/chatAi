@@ -1,0 +1,19 @@
+services:
+  server:
+    build: ./backend
+    container_name: 1Ai-server
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    restart: unless-stopped
+  client:
+    build: ./frontend
+    container_name: 1Ai-client
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://server:3000/api/v1
+    depends_on:
+      - server
+    restart: unless-stopped
