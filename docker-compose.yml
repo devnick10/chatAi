@@ -1,14 +1,18 @@
 services:
   server:
-    build: ./backend
     container_name: 1Ai-server
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.api
     ports:
       - "3000:3000"
     env_file:
       - ./backend/.env
     restart: unless-stopped
   client:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.client
     container_name: 1Ai-client
     ports:
       - "3001:3001"

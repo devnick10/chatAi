@@ -2,11 +2,11 @@ FROM oven/bun:canary-alpine
 
 WORKDIR /app
 
-COPY package.json bun.lock ./
+COPY backend/package.json backend/package.json ./
 
 RUN bun install --frozen-lockfile
 
-COPY . .
+COPY backend/ .
 
 RUN bunx prisma generate 
 
