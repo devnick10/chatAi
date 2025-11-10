@@ -2,14 +2,15 @@ import axios from "axios";
 import crypto from "crypto";
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth-middleware";
-import { prisma } from "..";
+import { prisma } from "../config/db";
+import { FRONTEND_URL, RAZORPAY_ENVIRONMENT, RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_PLAN_ID } from "../config/config";
 const router = Router();
 
 const razorpayCredentials = {
-  key: process.env.RAZORPAY_KEY_ID,
-  secret: process.env.RAZORPAY_KEY_SECRET,
-  plan_id: process.env.RAZORPAY_PLAN_ID,
-  environment: process.env.RAZORPAY_ENVIRONMENT,
+  key: RAZORPAY_KEY_ID,
+  secret: RAZORPAY_KEY_SECRET,
+  plan_id: RAZORPAY_PLAN_ID,
+  environment: RAZORPAY_ENVIRONMENT,
 };
 
 const subscriptionUrl =
@@ -45,7 +46,7 @@ function verifyRazorpaySignature(
   try {
     const body = subscriptionId + "|" + paymentId;
     const expectedsignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .createHmac("sha256", RAZORPAY_KEY_SECRET!)
       .update(body.toString())
       .digest("hex");
 
@@ -77,7 +78,7 @@ router.get("/init-subscribe", authMiddleware, async (req, res) => {
     total_count: 12,
     notes: {
       customer_id: userId,
-      return_url: `${process.env.FRONTEND_URL}`,
+      return_url: `${FRONTEND_URL}`,
     },
   };
 
@@ -172,7 +173,7 @@ router.post("/subscribe", authMiddleware, async (req, res) => {
       },
     });
     return res.redirect(
-      `${process.env.FRONTEND_URL}/paymentsuccess?refrence=${paymentId}`,
+      `${FRONTEND_URL}/paymentsuccess?refrence=${paymentId}`,
     );
   } catch (error: any) {
     console.error("Error while subscribe", error);
@@ -184,7 +185,7 @@ router.post("/subscribe", authMiddleware, async (req, res) => {
 });
 
 router.post("/redirect-home", (req, res) => {
-  return res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+  return res.redirect(`${FRONTEND_URL}/dashboard`);
 });
 
 router.post("/history", authMiddleware, async (req, res) => {

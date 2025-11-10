@@ -10,6 +10,10 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/hpp": "^0.2.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "prettier": "^3.6.2"
   },
   "peerDependencies": {
@@ -17,14 +21,14 @@
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/jsonwebtoken": "^9.0.10",
     "axios": "^1.12.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
     "hi-base32": "^0.5.1",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
     "prisma": "^6.16.2",
     "razorpay": "^2.9.6",

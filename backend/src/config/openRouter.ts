@@ -1,5 +1,5 @@
+import type { Messages, MODEL } from "../types";
 import { OPENROUTER_API_KEY } from "./config";
-import type { Message, Messages, MODEL } from "../types";
 
 const MAX_TOKEN_ITERATIONS = 1000;
 

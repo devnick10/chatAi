@@ -3,7 +3,7 @@ import { createChatSchema, type Message, type Role } from "../types";
 import { InMemoryStore } from "../config/inMemoryStore";
 import { createCompletion } from "../config/openRouter";
 import { authMiddleware } from "../middlewares/auth-middleware";
-import { prisma } from "..";
+import { prisma } from "../config/db";
 const router = Router();
 
 router.get("/conversations", authMiddleware, async (req, res) => {

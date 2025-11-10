@@ -1,8 +1,9 @@
 import axios from "axios";
+import { FROM_EMAIL, POSTMARK_SERVER_TOKEN } from "./config";
 
 export function sendMail(to: string, subject: string, body: string) {
   let data = JSON.stringify({
-    From: process.env.FROM_EMAIL,
+    From: FROM_EMAIL,
     TO: to,
     Subject: subject,
     "Text-Body": body,
@@ -15,7 +16,7 @@ export function sendMail(to: string, subject: string, body: string) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "X-Postmark-Server-Token": process.env.POSTMARK_SERVER_TOKEN,
+      "X-Postmark-Server-Token": POSTMARK_SERVER_TOKEN,
     },
   };
   return axios.request(config);

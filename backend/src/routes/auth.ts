@@ -4,7 +4,8 @@ import { sendMail } from "../config/postMark";
 import jwt from "jsonwebtoken";
 import { TOTP } from "totp-generator";
 import base32 from "hi-base32";
-import { prisma } from "..";
+import { prisma } from "../config/db";
+import { JWT_SECRET, NODE_ENV } from "../config/config";
 const authRouter = Router();
 
 authRouter.post("/initiate_signin", async (req, res) => {
@@ -19,10 +20,10 @@ authRouter.post("/initiate_signin", async (req, res) => {
     }
 
     const { otp } = await TOTP.generate(
-      base32.encode(data.email + process.env.JWT_SECRET),
+      base32.encode(data.email + JWT_SECRET),
     );
 
-    if (process.env.NODE_ENV !== "development") {
+    if (NODE_ENV !== "development") {
       await sendMail(
         data.email,
         "Login to 1ai",
@@ -79,7 +80,7 @@ authRouter.post("/signin", async (req, res) => {
 
   // verify otp
   const { otp } = await TOTP.generate(
-    base32.encode(data.email + process.env.JWT_SECRET),
+    base32.encode(data.email + JWT_SECRET),
   );
 
   if (data.otp !== otp) {
@@ -107,7 +108,7 @@ authRouter.post("/signin", async (req, res) => {
 
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET as string,
+      JWT_SECRET,
     );
 
     res.status(200).json({
