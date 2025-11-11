@@ -1,6 +1,7 @@
 import axios from "axios";
+import { config } from "./config";
 
 export const api = axios.create({
-  baseURL: process.env.BACKEND_URL || "http://localhost:3000/api/v1",
+  baseURL: config.NEXT_PUBLIC_BACKEND_URL,
   withCredentials: true,
 });
