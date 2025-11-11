@@ -1,7 +1,6 @@
 import { IconSoundWave } from "@/components/ui/icons";
-import { cn } from "@sglara/cn";
 import { IconMicrophone, IconPlus } from "@tabler/icons-react";
-import { toast } from "sonner";
+import SearchbarInput from "./searchbarInput";
 
 export default function Searchbar() {
   return (
@@ -9,16 +8,7 @@ export default function Searchbar() {
       <button className="p-2 hover:bg-neutral-600 mr-2 rounded-full">
         <IconPlus />
       </button>
-      <input
-        className={cn("w-full  outline-none")}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            toast.success("Enter key pressed");
-          }
-        }}
-        placeholder="Ask anything"
-        type="text"
-      />
+      <SearchbarInput />
       <div className="flex gap-2">
         <button className="p-2 hover:bg-neutral-600 rounded-full">
           <IconMicrophone />

@@ -16,8 +16,11 @@ const modelsSlice = createSlice({
     toggleSidebar: (state) => {
       state.sidbar = !state.sidbar;
     },
+    setSidebar: (state, action) => {
+      state.sidbar = action.payload;
+    },
   },
 });
 
-export const { toggleSidebar } = modelsSlice.actions;
+export const { toggleSidebar, setSidebar } = modelsSlice.actions;
 export default modelsSlice.reducer;
