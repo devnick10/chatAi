@@ -1,9 +1,12 @@
-import DashboardWrapper from "./dashboard-wrapper";
+"use client";
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <DashboardWrapper>{children}</DashboardWrapper>;
+import ClientGuard from "@/components/clientGuard";
+import DashboardLayoutContent from "./dashabordLayoutContent";
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ClientGuard>
+      <DashboardLayoutContent>{children}</DashboardLayoutContent>
+    </ClientGuard>
+  );
 }

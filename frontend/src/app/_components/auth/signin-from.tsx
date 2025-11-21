@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SpinnerCustom } from "@/components/ui/spinner";
 import { SigninFormSchema, SigninFormType } from "@/lib/schema";
-import { useInitiate_signinMutation } from "@/redux/service/service";
+import { useInitiateSigninMutation } from "@/redux/service/service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 
 export function SigninFrom() {
   const [initiate_signin, { data, isError, isLoading, isSuccess }] =
-    useInitiate_signinMutation();
+    useInitiateSigninMutation();
   const form = useForm<SigninFormType>({
     resolver: zodResolver(SigninFormSchema),
     defaultValues: {

@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-  initiate_signin,
+  setInitiate_signin,
   logout,
   setUser,
-  signin,
+  setSignin,
 } from "../features/auth/authSlice";
 
 export const serviceApi = createApi({
@@ -15,16 +15,20 @@ export const serviceApi = createApi({
   keepUnusedDataFor: 60 * 60 * 24 * 7,
   tagTypes: ["Me", "user", "chats"],
   endpoints: (builder) => ({
-    initiate_signin: builder.mutation({
+    initiateSignin: builder.mutation({
       query: (data) => ({
         url: "/auth/initiate_signin",
         method: "POST",
         body: data,
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        if (data.success) {
-          dispatch(initiate_signin({ step: "step2" }));
+        try {
+          const { data } = await queryFulfilled;
+          if (data.success) {
+            dispatch(setInitiate_signin({ step: "step2" }));
+          }
+        } catch (error) {
+          console.error(error);
         }
       },
     }),
@@ -36,11 +40,22 @@ export const serviceApi = createApi({
       }),
       invalidatesTags: ["Me"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        const { data } = await queryFulfilled;
-        if (data.success) {
-          dispatch(signin());
+        try {
+          const { data } = await queryFulfilled;
+          if (data.success) {
+            dispatch(setSignin());
+          }
+        } catch (error) {
+          console.error(error)
         }
       },
+    }),
+    resendOtp: builder.mutation({
+      query: (data) => ({
+        url: "/auth/initiate_signin",
+        method: "POST",
+        body: data,
+      }),
     }),
     myInfo: builder.query({
       query: (token: string) => ({
@@ -71,8 +86,9 @@ export const serviceApi = createApi({
 });
 
 export const {
-  useInitiate_signinMutation,
+  useInitiateSigninMutation,
   useSigninMutation,
+  useResendOtpMutation,
   useMyInfoQuery,
   useSignOutQuery,
 } = serviceApi;

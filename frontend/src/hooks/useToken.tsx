@@ -1,12 +1,15 @@
+"use client";
+
 export default function useToken() {
   function setToken(token: string) {
-    localStorage.setItem("token", JSON.stringify(token));
+    localStorage.setItem("token", token);
   }
+
   function getToken() {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    return token;
+    if (typeof window === "undefined") return null;
+    return localStorage.getItem("token");
   }
+
   return {
     setToken,
     getToken,
