@@ -19,9 +19,7 @@ authRouter.post("/initiate_signin", async (req, res) => {
       return;
     }
 
-    const { otp } = await TOTP.generate(
-      base32.encode(data.email + JWT_SECRET),
-    );
+    const { otp } = await TOTP.generate(base32.encode(data.email + JWT_SECRET));
 
     if (NODE_ENV !== "development") {
       await sendMail(
@@ -79,9 +77,7 @@ authRouter.post("/signin", async (req, res) => {
   }
 
   // verify otp
-  const { otp } = await TOTP.generate(
-    base32.encode(data.email + JWT_SECRET),
-  );
+  const { otp } = await TOTP.generate(base32.encode(data.email + JWT_SECRET));
 
   if (data.otp !== otp) {
     res.status(401).json({
@@ -106,10 +102,7 @@ authRouter.post("/signin", async (req, res) => {
       return;
     }
 
-    const token = jwt.sign(
-      { userId: user.id },
-      JWT_SECRET,
-    );
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET);
 
     res.status(200).json({
       token,

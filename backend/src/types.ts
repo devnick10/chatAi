@@ -1,6 +1,10 @@
 import { email, number, z } from "zod";
 const MAX_INPUTS_TOKENS = 1000;
-const SUPPORTER_MODELS = ["openai/gpt-4o", "openai/gpt-5","openai/gpt-oss-20b:free"];
+const SUPPORTER_MODELS = [
+  "openai/gpt-4o",
+  "openai/gpt-5",
+  "openai/gpt-oss-20b:free",
+];
 const CURRENCY = ["INR"];
 export type MODEL = (typeof SUPPORTER_MODELS)[number];
 

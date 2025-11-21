@@ -19,16 +19,16 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later.",
-})
+});
 
 // Security Middlewares
 app.use(helmet());
-app.use("/api", limiter)
+app.use("/api", limiter);
 app.use(hpp());
 
 // Dev logger
 if (NODE_ENV === "development") {
-  app.use(morgan("dev"))
+  app.use(morgan("dev"));
 }
 
 // Body Parser Middleware

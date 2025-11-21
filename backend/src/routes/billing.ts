@@ -3,7 +3,13 @@ import crypto from "crypto";
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth-middleware";
 import { prisma } from "../config/db";
-import { FRONTEND_URL, RAZORPAY_ENVIRONMENT, RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_PLAN_ID } from "../config/config";
+import {
+  FRONTEND_URL,
+  RAZORPAY_ENVIRONMENT,
+  RAZORPAY_KEY_ID,
+  RAZORPAY_KEY_SECRET,
+  RAZORPAY_PLAN_ID,
+} from "../config/config";
 const router = Router();
 
 const razorpayCredentials = {
@@ -172,9 +178,7 @@ router.post("/subscribe", async (req, res) => {
         creditsGranted: creditsTOGrant,
       },
     });
-    return res.redirect(
-      `${FRONTEND_URL}/paymentsuccess?refrence=${paymentId}`,
-    );
+    return res.redirect(`${FRONTEND_URL}/paymentsuccess?refrence=${paymentId}`);
   } catch (error: any) {
     console.error("Error while subscribe", error);
     return res.status(500).json({

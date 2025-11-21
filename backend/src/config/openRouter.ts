@@ -7,7 +7,7 @@ export const createCompletion = async (
   cb: (chunk: string) => void,
 ) => {
   return new Promise<void>(async (resolve, reject) => {
-     const response = await fetch(
+    const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
         method: "POST",
@@ -18,7 +18,7 @@ export const createCompletion = async (
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model:"openai/gpt-oss-20b:free",
+          model: "openai/gpt-oss-20b:free",
           messages,
           stream: true,
         }),
