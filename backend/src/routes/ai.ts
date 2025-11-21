@@ -1,12 +1,11 @@
 import { Router } from "express";
-import { createChatSchema, type Message, type Role } from "../types";
+import { prisma } from "../config/db";
 import { InMemoryStore } from "../config/inMemoryStore";
 import { createCompletion } from "../config/openRouter";
-import { authMiddleware } from "../middlewares/auth-middleware";
-import { prisma } from "../config/db";
+import { createChatSchema, type Role } from "../types";
 const router = Router();
 
-router.get("/conversations", authMiddleware, async (req, res) => {
+router.get("/conversations", async (req, res) => {
   const userId = req.userId;
   const conversations = await prisma.conversation.findFirst({
     where: {
@@ -18,8 +17,9 @@ router.get("/conversations", authMiddleware, async (req, res) => {
   });
 });
 
-router.get("/conversation/conversationId", authMiddleware, async (req, res) => {
+router.get("/conversation/conversationId", async (req, res) => {
   const userId = req.userId;
+  // @ts-expect-error req.params.conversationId maybe empty or cause error;
   const conversationId = req.params.conversationId;
   const conversation = await prisma.conversation.findFirst({
     where: {
@@ -39,7 +39,7 @@ router.get("/conversation/conversationId", authMiddleware, async (req, res) => {
   });
 });
 
-router.post("/chat", authMiddleware, async (req, res) => {
+router.post("/chat", async (req, res) => {
   const userId = req.userId;
   const { success, data } = createChatSchema.safeParse(req.body);
   const conversationId = data?.conversationId ?? Bun.randomUUIDv7();
@@ -105,7 +105,6 @@ router.post("/chat", authMiddleware, async (req, res) => {
           content: data.message,
         },
       ],
-      data.model,
       (chunk: string) => {
         message += chunk;
         res.write(`data: ${JSON.stringify({ content: chunk })}\n\n`);
@@ -167,7 +166,7 @@ router.post("/chat", authMiddleware, async (req, res) => {
   });
 });
 
-router.get("/credits", authMiddleware, async (req, res) => {
+router.get("/credits", async (req, res) => {
   const userId = req.userId;
   try {
     const user = await prisma.user.findFirst({

@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "bunx prisma migrate deploy && bun run /src/index.ts",
+    "dev": "bun run --hot /src/index.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",
+    "@types/morgan": "^1.9.10",
     "axios": "^1.12.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -30,6 +32,7 @@
     "hi-base32": "^0.5.1",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
     "prisma": "^6.16.2",
     "razorpay": "^2.9.6",
     "totp-generator": "^2.0.0",

@@ -58,7 +58,7 @@ function verifyRazorpaySignature(
 }
 
 // create a subscription
-router.get("/init-subscribe", authMiddleware, async (req, res) => {
+router.get("/init-subscribe", async (req, res) => {
   const userId = req.userId;
   const authHeader =
     "Basic " +
@@ -114,7 +114,7 @@ router.get("/init-subscribe", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/subscribe", authMiddleware, async (req, res) => {
+router.post("/subscribe", async (req, res) => {
   const userId = req.userId;
   const { subscriptionId, paymentId, signature } = req.body;
 
@@ -188,7 +188,7 @@ router.post("/redirect-home", (req, res) => {
   return res.redirect(`${FRONTEND_URL}/dashboard`);
 });
 
-router.post("/history", authMiddleware, async (req, res) => {
+router.post("/history", async (req, res) => {
   const userId = req.userId;
   const { page = 1, limit = 10 } = req.query;
 
@@ -223,7 +223,7 @@ router.post("/history", authMiddleware, async (req, res) => {
   }
 });
 
-router.post("/subscriptions", authMiddleware, async (req, res) => {
+router.post("/subscriptions", async (req, res) => {
   const userId = req.userId;
 
   try {

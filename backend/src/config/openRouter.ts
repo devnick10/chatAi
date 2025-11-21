@@ -1,26 +1,24 @@
 import type { Messages, MODEL } from "../types";
 import { OPENROUTER_API_KEY } from "./config";
-
 const MAX_TOKEN_ITERATIONS = 1000;
 
 export const createCompletion = async (
   messages: Messages,
-  model: MODEL,
   cb: (chunk: string) => void,
 ) => {
   return new Promise<void>(async (resolve, reject) => {
-    const response = await fetch(
+     const response = await fetch(
       "https://openrouter.ai/api/v1/chat/completions",
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${OPENROUTER_API_KEY}`,
-          "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
-          "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
+          // "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
+          // "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model,
+          model:"openai/gpt-oss-20b:free",
           messages,
           stream: true,
         }),
