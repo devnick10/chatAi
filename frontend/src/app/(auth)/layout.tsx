@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import useToken from "@/hooks/useToken";
 import { useMyInfoQuery } from "@/redux/service/service";
 import { useRouter } from "next/navigation";

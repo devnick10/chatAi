@@ -9,26 +9,26 @@ import { VerifyEmailFormSchema, VerifyEmailFormType } from "@/lib/schema";
 import { useSigninMutation } from "@/redux/service/service";
 
 export function useVerifyOtpForm() {
-    const router = useRouter();
-    const { setToken } = useToken();
-    const [signin, { isLoading }] = useSigninMutation();
+  const router = useRouter();
+  const { setToken } = useToken();
+  const [signin, { isLoading }] = useSigninMutation();
 
-    const form = useForm<VerifyEmailFormType>({
-        resolver: zodResolver(VerifyEmailFormSchema),
-        defaultValues: { email: "", otp: "" },
-    });
+  const form = useForm<VerifyEmailFormType>({
+    resolver: zodResolver(VerifyEmailFormSchema),
+    defaultValues: { email: "", otp: "" },
+  });
 
-    const onSubmit = async (values: VerifyEmailFormType) => {
-        const res = await signin(values);
+  const onSubmit = async (values: VerifyEmailFormType) => {
+    const res = await signin(values);
 
-        if (!res.data?.success) {
-            toast.error(res.data?.message || "Invalid OTP!");
-            return;
-        }
+    if (!res.data?.success) {
+      toast.error(res.data?.message || "Invalid OTP!");
+      return;
+    }
 
-        setToken(res.data.token);
-        router.push("/dashboard");
-    };
+    setToken(res.data.token);
+    router.push("/dashboard");
+  };
 
-    return { form, onSubmit, isLoading };
+  return { form, onSubmit, isLoading };
 }

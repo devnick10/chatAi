@@ -17,7 +17,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setInitiate_signin: (state, action: PayloadAction<{ step: AuthStepType }>) => {
+    setInitiate_signin: (
+      state,
+      action: PayloadAction<{ step: AuthStepType }>,
+    ) => {
       const { step } = action.payload;
       state.step = step;
     },
@@ -39,6 +42,11 @@ const authSlice = createSlice({
   },
 });
 
-export const { setSignin, logout, setInitiate_signin, setUser, resendOtpState } =
-  authSlice.actions;
+export const {
+  setSignin,
+  logout,
+  setInitiate_signin,
+  setUser,
+  resendOtpState,
+} = authSlice.actions;
 export default authSlice.reducer;

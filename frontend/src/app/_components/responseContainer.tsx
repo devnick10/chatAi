@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { IconSoundWave } from "@/components/ui/icons";
 import useToken from "@/hooks/useToken";
 import { config } from "@/lib/config";
@@ -8,13 +8,13 @@ import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function ResponseContainer() {
-  const [search, setSearch] = useState<string>("2+2 how much")
-  const [chunks, setChunks] = useState<string>("")
+  const [search, setSearch] = useState<string>("2+2 how much");
+  const [chunks, setChunks] = useState<string>("");
   const BACKEND_URL = config.NEXT_PUBLIC_BACKEND_URL;
   const token = useToken().getToken();
 
   const makeRequest = async (message: string) => {
-    setChunks(""); 
+    setChunks("");
 
     const response = await fetch(`${BACKEND_URL}/ai/chat`, {
       method: "POST",
@@ -77,8 +77,6 @@ export default function ResponseContainer() {
     }
   };
 
-
-
   return (
     <>
       <div className="w-full bg-neutral-700 shadow-sm shadow-neutral-900 rounded-3xl flex items-center justify-between py-2 px-3">
@@ -87,11 +85,13 @@ export default function ResponseContainer() {
         </button>
         <input
           value={search}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
           className={cn("w-full  outline-none")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              makeRequest(search)
+              makeRequest(search);
             }
           }}
           placeholder="Ask anything"
@@ -107,10 +107,7 @@ export default function ResponseContainer() {
           </button>
         </div>
       </div>
-      <div>
-        {chunks}
-      </div>
+      <div>{chunks}</div>
     </>
   );
 }
-

@@ -15,7 +15,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       >
         {children}
         <Toaster position="top-center" />
-                <Script
+        <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="afterInteractive"
         />

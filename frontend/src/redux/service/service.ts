@@ -46,7 +46,7 @@ export const serviceApi = createApi({
             dispatch(setSignin());
           }
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
       },
     }),
