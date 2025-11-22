@@ -8,8 +8,9 @@ import { ChangeEvent, useState } from "react";
 import { toast } from "sonner";
 
 export default function ResponseContainer() {
-  const [search, setSearch] = useState<string>("2+2 how much");
+  const [search, setSearch] = useState<string>("");
   const [chunks, setChunks] = useState<string>("");
+  const [messages, setMessage] = useState<string>("");
   const BACKEND_URL = config.NEXT_PUBLIC_BACKEND_URL;
   const token = useToken().getToken();
 
@@ -61,9 +62,8 @@ export default function ResponseContainer() {
 
             try {
               const parsed = JSON.parse(jsonStr);
-              const text = parsed.text || parsed.delta || "";
-
-              setChunks((prev) => prev + text);
+              const text = parsed.text || parsed.delta || parsed.content || "";
+              setChunks((prev) => prev += text);
             } catch (err) {
               console.log("Failed to parse chunk JSON:", trimmed);
             }
@@ -91,6 +91,7 @@ export default function ResponseContainer() {
           className={cn("w-full  outline-none")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              setMessage(prevMessage => prevMessage += chunks);
               makeRequest(search);
             }
           }}
@@ -107,7 +108,7 @@ export default function ResponseContainer() {
           </button>
         </div>
       </div>
-      <div>{chunks}</div>
+      <div>{messages}<br /> {chunks}</div>
     </>
   );
 }
