@@ -88,11 +88,12 @@ router.post("/chat", async (req, res) => {
     });
   }
 
-  res.setHeader("Cache", "no-cache");
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate, no-transform");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
   res.setHeader("Connection", "keep-alive");
-  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.flushHeaders();
 
   let message = "";
