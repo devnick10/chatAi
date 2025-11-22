@@ -11,6 +11,7 @@ import aiRouter from "./routes/ai";
 import authRouter from "./routes/auth";
 import billingRouter from "./routes/billing";
 import healCheckRoute from "./routes/healthCheack";
+import { errorHandler } from "./middlewares/errorMiddleware";
 
 const app = express();
 
@@ -48,6 +49,9 @@ app.use("/api/v1/billing", authMiddleware, billingRouter);
 
 // health-check route
 app.use("/health-check", healCheckRoute);
+
+// Global error handler
+app.use(errorHandler);
 
 app.listen(PORT, async () => {
   await prisma.$connect();

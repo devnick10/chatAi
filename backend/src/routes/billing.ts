@@ -1,8 +1,6 @@
 import axios from "axios";
 import crypto from "crypto";
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth-middleware";
-import { prisma } from "../config/db";
 import {
   FRONTEND_URL,
   RAZORPAY_ENVIRONMENT,
@@ -10,6 +8,9 @@ import {
   RAZORPAY_KEY_SECRET,
   RAZORPAY_PLAN_ID,
 } from "../config/config";
+import { prisma } from "../config/db";
+import { catchAsync } from "../utils/catchAsync";
+import { ApiError } from "../middlewares/errorMiddleware";
 const router = Router();
 
 const razorpayCredentials = {
@@ -64,31 +65,32 @@ function verifyRazorpaySignature(
 }
 
 // create a subscription
-router.get("/init-subscribe", async (req, res) => {
-  const userId = req.userId;
-  const authHeader =
-    "Basic " +
-    Buffer.from(
-      razorpayCredentials.key + ":" + razorpayCredentials.secret,
-    ).toString("base64");
-  const headers = {
-    Authorization: authHeader,
-    "Content-Type": "application/json",
-  };
+router.get(
+  "/init-subscribe",
+  catchAsync(async (req, res) => {
+    const userId = req.userId;
+    const authHeader =
+      "Basic " +
+      Buffer.from(
+        razorpayCredentials.key + ":" + razorpayCredentials.secret,
+      ).toString("base64");
+    const headers = {
+      Authorization: authHeader,
+      "Content-Type": "application/json",
+    };
 
-  let wp = plans[0]?.pricing_currency[0]!;
+    let wp = plans[0]?.pricing_currency[0]!;
 
-  const orderData = {
-    plan_id: wp?.plan_Id,
-    customer_notify: 1,
-    total_count: 12,
-    notes: {
-      customer_id: userId,
-      return_url: `${FRONTEND_URL}`,
-    },
-  };
+    const orderData = {
+      plan_id: wp?.plan_Id,
+      customer_notify: 1,
+      total_count: 12,
+      notes: {
+        customer_id: userId,
+        return_url: `${FRONTEND_URL}`,
+      },
+    };
 
-  try {
     // creat a subscription
     const subscritions = await axios.post(subscriptionUrl, orderData, {
       headers,
@@ -96,10 +98,10 @@ router.get("/init-subscribe", async (req, res) => {
     const { id } = subscritions.data;
 
     if (!id) {
-      return res.status(500).json({ error: "Missing payment session ID" });
+      throw new ApiError(500, "Missing payment session ID");
     }
 
-    await prisma.paymentHistory.create({
+    const paymentHistory = await prisma.paymentHistory.create({
       data: {
         status: "pending",
         paymentMethod: "RAZORPAY",
@@ -110,36 +112,35 @@ router.get("/init-subscribe", async (req, res) => {
         currency: wp.currency,
       },
     });
+
+    if (!paymentHistory) {
+      throw new ApiError(500, "Error creating order");
+    }
     return res.json({ subscriptionId: id, rzpKey: razorpayCredentials.key });
-  } catch (error: any) {
-    console.error("Error creating order", error);
-    return res.status(500).json({
-      error: "Internal server erorr during order creation",
-      details: error.message,
+  }),
+);
+
+router.post(
+  "/subscribe",
+  catchAsync(async (req, res) => {
+    const userId = req.userId;
+    const { subscriptionId, paymentId, signature } = req.body;
+
+    const existingPayment = await prisma.paymentHistory.findFirst({
+      where: {
+        bankReference: subscriptionId,
+        userId,
+      },
     });
-  }
-});
 
-router.post("/subscribe", async (req, res) => {
-  const userId = req.userId;
-  const { subscriptionId, paymentId, signature } = req.body;
+    if (!existingPayment) {
+      throw new ApiError(500, "Invalid session ID");
+    }
 
-  const existingPayment = await prisma.paymentHistory.findFirst({
-    where: {
-      bankReference: subscriptionId,
-      userId,
-    },
-  });
+    if (!verifyRazorpaySignature(subscriptionId, paymentId, signature)) {
+      throw new ApiError(500, "Invalid signature");
+    }
 
-  if (!existingPayment) {
-    return res.status(500).json({ error: "Invalid session ID" });
-  }
-
-  if (!verifyRazorpaySignature(subscriptionId, paymentId, signature)) {
-    return res.status(500).json({ error: "Invalid signature" });
-  }
-
-  try {
     await prisma.paymentHistory.update({
       where: {
         paymentId: existingPayment.paymentId,
@@ -167,7 +168,7 @@ router.post("/subscribe", async (req, res) => {
     const endDate = new Date();
     endDate.setMonth(endDate.getMonth() + 1); // add 1 month
 
-    await prisma.subscription.create({
+    const subscription = await prisma.subscription.create({
       data: {
         userId,
         currency: existingPayment.currency ?? "",
@@ -178,26 +179,24 @@ router.post("/subscribe", async (req, res) => {
         creditsGranted: creditsTOGrant,
       },
     });
+    if (!subscription) {
+      throw new ApiError(500, "Internal server erorr during subscribe");
+    }
     return res.redirect(`${FRONTEND_URL}/paymentsuccess?refrence=${paymentId}`);
-  } catch (error: any) {
-    console.error("Error while subscribe", error);
-    return res.status(500).json({
-      error: "Internal server erorr during subscribe",
-      details: error.response.data || error.message,
-    });
-  }
-});
+  }),
+);
 
 router.post("/redirect-home", (req, res) => {
   return res.redirect(`${FRONTEND_URL}/dashboard`);
 });
 
-router.post("/history", async (req, res) => {
-  const userId = req.userId;
-  const { page = 1, limit = 10 } = req.query;
-
-  try {
+router.post(
+  "/history",
+  catchAsync(async (req, res) => {
+    const userId = req.userId;
+    const { page = 1, limit = 10 } = req.query;
     const skip = (parseInt(page as string) - 1) * parseInt(limit as string);
+
     const paymentHistory = await prisma.paymentHistory.findMany({
       where: {
         userId,
@@ -210,6 +209,10 @@ router.post("/history", async (req, res) => {
       },
     });
 
+    if (!paymentHistory) {
+      throw new ApiError(500, "Error fetching payment history");
+    }
+
     const totalPayments = await prisma.paymentHistory.count({
       where: { userId },
     });
@@ -221,16 +224,14 @@ router.post("/history", async (req, res) => {
       totalPages,
       totalPayments,
     });
-  } catch (error) {
-    console.error("Error fetching payment history:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+  }),
+);
 
-router.post("/subscriptions", async (req, res) => {
-  const userId = req.userId;
+router.post(
+  "/subscriptions",
+  catchAsync(async (req, res) => {
+    const userId = req.userId;
 
-  try {
     const subscriptions = await prisma.subscription.findMany({
       where: {
         userId,
@@ -238,21 +239,22 @@ router.post("/subscriptions", async (req, res) => {
       },
       orderBy: { createdAt: "desc" },
     });
+    if (!subscriptions) {
+      throw new ApiError(500, "Error fetching subscriptions:");
+    }
     return res.json({ subscriptions });
-  } catch (error) {
-    console.error("Error fetching subscriptions:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+  }),
+);
 
 router.get("/get-plans", async (req, res) => {
   return res.json({ plans });
 });
 
-router.get("/credits", async (req, res) => {
-  const userId = req.userId;
+router.get(
+  "/credits",
+  catchAsync(async (req, res) => {
+    const userId = req.userId;
 
-  try {
     const user = await prisma.user.findFirst({
       where: {
         id: userId,
@@ -260,17 +262,14 @@ router.get("/credits", async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      throw new ApiError(404, "User not found");
     }
 
     return res.json({
       credits: user.credits,
       isPremium: user.isPremium,
     });
-  } catch (error) {
-    console.error("Error fetching subscriptions:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+  }),
+);
 
 export default router;
