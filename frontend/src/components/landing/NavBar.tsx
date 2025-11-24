@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import ModeToggle from "../mode-toggle";
+// import ModeToggle from "../mode-toggle";
 import { IconMenu, IconX } from "@tabler/icons-react";
 
 export default function NavBar() {

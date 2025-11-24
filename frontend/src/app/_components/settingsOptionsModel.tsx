@@ -7,7 +7,7 @@ import { setSettingsMenu } from "@/redux/features/models/modelsSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { IconLogout, IconSettings2 } from "@tabler/icons-react";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 interface SettingsOptionsModelProps {
   isSidebarOpen: boolean;
@@ -25,7 +25,8 @@ export const SettingsOptionsModel: React.FC<SettingsOptionsModelProps> = ({
   const email = user?.email || "guest@gmail.com";
   const menuRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useAppDispatch();
-  const setSettings = (val: boolean) => dispatch(setSettingsMenu(val));
+
+  const setSettings = useCallback((val: boolean) => dispatch(setSettingsMenu(val)), [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -36,7 +37,7 @@ export const SettingsOptionsModel: React.FC<SettingsOptionsModelProps> = ({
 
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+  }, [setSettings]);
 
   function handleLogout() {
     removeToken();

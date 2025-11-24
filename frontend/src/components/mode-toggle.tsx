@@ -11,7 +11,7 @@ export default function ModeToggle() {
     const mediaQuery = window.matchMedia("(prefers-color-scheme:dark)");
     setSystemTheme(mediaQuery.matches ? "dark" : "light");
 
-    const handleChange = (e: MediaQueryListEvent) => {
+    const handleChange = () => {
       setSystemTheme(mediaQuery.matches ? "dark" : "light");
     };
 

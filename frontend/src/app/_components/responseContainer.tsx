@@ -65,6 +65,7 @@ export default function ResponseContainer() {
               const text = parsed.text || parsed.delta || parsed.content || "";
               setChunks((prev) => (prev += text));
             } catch (err) {
+              console.error(err)
               console.log("Failed to parse chunk JSON:", trimmed);
             }
           }
