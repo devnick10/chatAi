@@ -1,18 +1,24 @@
 "use client";
-import React from "react";
 import { ChatAiIcon } from "@/components/ui/icons";
+import useSettingsModel from "@/hooks/models/useSettigsModel";
+import useSidebar from "@/hooks/models/useSidebar";
+import useAuth from "@/hooks/useAuth";
+import {
+  setSidebar,
+  toggleSettingsMenu,
+  toggleSidebar,
+} from "@/redux/features/models/modelsSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { cn } from "@sglara/cn";
 import {
   IconLayoutSidebarRight,
   IconMessage2,
   IconSearch,
   IconUser,
 } from "@tabler/icons-react";
-import { useAppDispatch } from "@/redux/hooks";
-import { toggleSidebar } from "@/redux/features/sidebar/sidebarSlice";
-import { cn } from "@sglara/cn";
-import useSidebar from "@/hooks/useSidebar";
-import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { SettingsOptionsModel } from "./settingsOptionsModel";
+import Link from "next/link";
 
 const sidebarFeatures = [
   { title: "New chat", icon: IconMessage2, hrf: "/dashboard" },
@@ -21,8 +27,10 @@ const sidebarFeatures = [
 
 export default function Sidebar() {
   const isOpen = useSidebar();
+  const isSettingsModelOpen = useSettingsModel();
   const dispatch = useAppDispatch();
   const toggle = () => dispatch(toggleSidebar());
+  const toggleSettings = () => dispatch(toggleSettingsMenu());
   const { user } = useAuth();
   const userName = user?.email.split("@")[0] || "Guest";
   const router = useRouter();
@@ -62,9 +70,19 @@ export default function Sidebar() {
                 "flex items-center gap-3 px-4 py-2 hover:bg-neutral-800 cursor-pointer transition-colors",
                 !isOpen && "justify-center",
               )}
-              onClick={() => (feat.hrf ? router.push(feat.hrf) : null)}
+              onClick={(e) => {
+                if ((e.target as HTMLElement).closest("svg")) return;
+                if (feat.hrf) router.push(feat.hrf);
+              }}
             >
-              <Icon className="shrink-0" />
+              <Icon
+                className="shrink-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  dispatch(setSidebar(false));
+                  router.push(feat.hrf || "/dashboard");
+                }}
+              />
               {isOpen && (
                 <span className="text-sm font-medium">{feat.title}</span>
               )}
@@ -75,24 +93,41 @@ export default function Sidebar() {
 
       {/* Chats */}
       {isOpen && <ChatTitleContainer />}
-      <div className="h-full flex flex-col justify-end py-4">
-        <div className="relative flex justify-between px-4 items-center ">
-          <div className="flex gap-2 items-center">
-            <div className="rounded-full bg-gray-600 w-8 h-8 flex justify-center items-center ">
-              {userName.at(0) || <IconUser className="size-4" />}
+
+      <div className="h-full flex flex-col justify-end py-4 px-1 ">
+        {isOpen && isSettingsModelOpen && (
+          <SettingsOptionsModel isSidebarOpen={isOpen} toggleSidebar={toggle} />
+        )}
+        <div
+          onClick={toggleSettings}
+          className="hover:bg-neutral-800 px-1 rounded-lg"
+        >
+          <div className="relative flex justify-between items-center ">
+            <div className="flex gap-2 items-center ">
+              <div
+                className="rounded-full bg-gray-600 w-8 h-8 flex justify-center items-center "
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggle();
+                }}
+              >
+                {<IconUser className="size-4" />}
+              </div>
+              {isOpen && (
+                <div>
+                  <h4 className="font-medium">{userName}</h4>{" "}
+                  <p className="text-foreground/50 text-sm">plan-free</p>
+                </div>
+              )}
             </div>
             {isOpen && (
-              <div>
-                <h4 className="font-medium">{userName}</h4>{" "}
-                <p className="text-foreground/50 text-sm">plan-free</p>
-              </div>
+              <Link href={"/plans"} onClick={(e) => e.stopPropagation()}>
+                <button className="text-[13px] bg-nuetral-800 font-semibold text-foreground border border-neutral-300/80 rounded-2xl px-2 py-1">
+                  Upgrade
+                </button>
+              </Link>
             )}
           </div>
-          {isOpen && (
-            <button className="text-[13px] bg-nuetral-800 font-semibold text-foreground border border-neutral-300/80 rounded-2xl px-2 py-1">
-              Upgrade
-            </button>
-          )}
         </div>
       </div>
     </div>

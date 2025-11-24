@@ -4,7 +4,9 @@ export default function useToken() {
   function setToken(token: string) {
     localStorage.setItem("token", token);
   }
-
+  function removeToken() {
+    localStorage.removeItem("token");
+  }
   function getToken() {
     if (typeof window === "undefined") return null;
     return localStorage.getItem("token");
@@ -13,5 +15,6 @@ export default function useToken() {
   return {
     setToken,
     getToken,
+    removeToken,
   };
 }

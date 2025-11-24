@@ -1,10 +1,9 @@
 "use client";
-import Loader from "@/app/_components/loader";
 import Sidebar from "@/app/_components/sidebar";
-import useSidebar from "@/hooks/useSidebar";
+import useSidebar from "@/hooks/models/useSidebar";
 import useToken from "@/hooks/useToken";
 import { logout } from "@/redux/features/auth/authSlice";
-import { setSidebar } from "@/redux/features/sidebar/sidebarSlice";
+import { setSidebar } from "@/redux/features/models/modelsSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { useMyInfoQuery } from "@/redux/service/service";
 import { cn } from "@sglara/cn";

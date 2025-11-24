@@ -43,9 +43,9 @@ export default function NavBar() {
             <Link href="/signin">Try For Free</Link>
           </Button>
         </div>
-        <div className="hidden sm:block">
+        {/* <div className="hidden sm:block">
           <ModeToggle />
-        </div>
+        </div> */}
 
         {/* Mobile Menu Toggle */}
         <button

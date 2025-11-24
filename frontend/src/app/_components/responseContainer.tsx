@@ -63,7 +63,7 @@ export default function ResponseContainer() {
             try {
               const parsed = JSON.parse(jsonStr);
               const text = parsed.text || parsed.delta || parsed.content || "";
-              setChunks((prev) => prev += text);
+              setChunks((prev) => (prev += text));
             } catch (err) {
               console.log("Failed to parse chunk JSON:", trimmed);
             }
@@ -91,7 +91,7 @@ export default function ResponseContainer() {
           className={cn("w-full  outline-none")}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              setMessage(prevMessage => prevMessage += chunks);
+              setMessage((prevMessage) => (prevMessage += chunks));
               makeRequest(search);
             }
           }}
@@ -108,7 +108,10 @@ export default function ResponseContainer() {
           </button>
         </div>
       </div>
-      <div>{messages}<br /> {chunks}</div>
+      <div>
+        {messages}
+        <br /> {chunks}
+      </div>
     </>
   );
 }

@@ -64,6 +64,7 @@ export const serviceApi = createApi({
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        timeout: 3000,
       }),
       providesTags: ["Me"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -76,12 +77,6 @@ export const serviceApi = createApi({
         }
       },
     }),
-    signOut: builder.query({
-      query: () => ({
-        url: "/auth/signout",
-        method: "GET",
-      }),
-    }),
   }),
 });
 
@@ -90,5 +85,4 @@ export const {
   useSigninMutation,
   useResendOtpMutation,
   useMyInfoQuery,
-  useSignOutQuery,
 } = serviceApi;

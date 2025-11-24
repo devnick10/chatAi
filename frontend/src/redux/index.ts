@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/auth/authSlice";
-import modelsReducer from "./features/sidebar/sidebarSlice";
+import modelsReducer from "./features/models/modelsSlice";
 import { serviceApi } from "./service/service";
 
 export const makeStore = () => {
